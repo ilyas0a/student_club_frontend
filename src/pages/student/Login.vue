@@ -1,6 +1,40 @@
 <script setup>
 import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
+import axios from "axios";
+import {ref} from "vue";
+import {useRouter} from "vue-router";
+
+const router = useRouter()
+
+const email = ref('')
+const password = ref('')
+const message = ref('')
+
+async function login() {
+  try {
+    const response = await axios.post('http://localhost:8000/api/auth/student/login' , {
+      email:email.value ,
+      password:password.value ,
+    })
+
+    console.log(response)
+
+    if(response.status.toString() == '200') {
+      localStorage.setItem('token' , response.data.token)
+      localStorage.setItem('user' , response.data.user)
+      router.push('/student')
+      return
+    }
+
+  }
+  catch (e) {
+    if(e?.response?.status == 404) {
+      message.value = e.response.data.message;
+    }
+  }
+}
+
 </script>
 <template>
     <Header />
@@ -16,7 +50,8 @@ import Footer from '../../components/Footer.vue';
                         </p>
                     </div>
                     <form method="post" @submit.prevent="login">
-                        
+                      <p v-if="message" class="my-2 text-red-500">{{message}}</p>
+
                         <div class="relative mb-3">
                             <label class="block text-gray-800 text-sm font-medium mb-2">البريد الإلكتروني</label>
                             <input type="email" v-model="email" name="email" required placeholder="البريد الإلكتروني"

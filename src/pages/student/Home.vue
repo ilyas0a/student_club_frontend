@@ -1,3 +1,14 @@
+<script setup>
+import {useRouter} from "vue-router";
+
+const router = useRouter()
+function logout() {
+  console.log(3434)
+  localStorage.removeItem('token')
+  localStorage.removeItem('user')
+  router.replace('/student/login')
+}
+</script>
 <template>
     <div x-data="{ userDropdownOpen: false, mobileNavOpen: false }" class="flex flex-col mx-auto w-full min-h-screen bg-white text-gray-900">
      <header id="page-header" class="flex flex-none items-center h-16 bg-white shadow-sm fixed top-0 right-0 left-0 z-30">
@@ -62,7 +73,7 @@
                    </a>
                  </div>
                  <div class="p-2 space-y-1">
-                   <form onsubmit="return false;">
+                   <form @submit.prevent="logout">
                      <button type="submit" role="menuitem" class="w-full text-left flex items-center space-x-2 space-x-reverse rounded py-2 px-3 text-sm font-medium text-gray-400 hover:bg-gray-800 hover:bg-opacity-50 hover:text-gray-300 focus:outline-none focus:bg-gray-800 focus:text-gray-200">
                        <svg class="hi-solid hi-lock-closed inline-block w-5 h-5 opacity-50" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
                        <span>تسجيل الخروج</span>
@@ -117,6 +128,30 @@
               </dl>
               
             </div>
+
+         <div class="py-5">
+           <h1 class="font-semibold text-xl pt-2 pb-3">الفعاليات :</h1>
+           <div class="border-2 rounded border-primary pt-2 pb-8 px-8">
+             <div class="flex justify-between items-center">
+               <div class="flex content-center my-3">
+               <div class="relative w-12 h-12">
+               <img
+                   width="50"
+                   height="50"
+                   class="rounded-full border border-gray-100 shadow-sm"
+                   src="https://randomuser.me/api/portraits/women/81.jpg" alt="">
+             </div>
+             <dd class="pr-2 text-lg pt-2 pb-3">فعالية جامعة الملك سعود</dd>
+           </div>
+             <p class="">التاريخ : 1/1/2025</p>
+
+             </div>
+             <dt class="text-sm mr-8  text-gray-700 tracking-wider">
+               هذا هو وصف الفعالية,يمكنك اضافة أي وصف اضافي
+             </dt>
+           </div>
+
+         </div>
        </div>
      </main>
 

@@ -101,17 +101,14 @@
                     </div>
                 </div>
                 <div>
-                    <p class="text-center text-gray-500">لديك حساب بالفعل؟ 
-                       تسجيل الدخول
+                    <p class="text-center text-gray-500">
+
+                      لديك حساب بالفعل؟
+                      <span @click="router.currentRoute.value.path == '/student/login' ? show=false :  router.push('/student/login')" class="underline cursor-pointer">
+                        تسجيل الدخول
+                      </span>
                     </p>
-                    <div class="flex items-center justify-evenly mt-4 p-4">
-                      <a href="/club/login"
-                            class="text-primary font-semibold">
-                            نادي 
-                          </a>
-                            <a href="/student/login"
-                            class="text-primary font-semibold">طالب</a>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -124,6 +121,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
+import {useRouter} from "vue-router";
 
 const navigation = [
   { name: 'الدورات', href: '/courses' },
@@ -133,4 +131,8 @@ const navigation = [
 ]
 const show = ref(false);
 const mobileMenuOpen = ref(false)
+
+const router = useRouter()
+
+console.log(router.currentRoute.value)
 </script>

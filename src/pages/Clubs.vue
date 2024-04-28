@@ -67,7 +67,7 @@
         </div>
       </a> -->
       <div v-if="clubs">
-        <h5>Products</h5>
+<!--        <h5>Products</h5>-->
         <ul class="mb-0">
           <li v-for="club in clubs" :key="club.id">{{ club.name }}</li>
         </ul>

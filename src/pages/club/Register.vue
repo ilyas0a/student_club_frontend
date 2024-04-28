@@ -27,7 +27,7 @@
 ]" :beforeChange="onTabBeforeChange" @change="onChangeCurrentTab" @complete:wizard="wizardCompleted">
       <div v-if="currentTabIndex === 0">
         <div class="flex items-center justify-around">
-          <button v-on:click="changeUniversity" v-bind:class="{ isselcted: universitySelect }"
+          <button v-on:click="form.type = 'university'" v-bind:class="{ isselcted: form.type == 'university' }"
             class="group flex flex-col bg-white border hover:border-primary shadow-sm rounded-lg hover:shadow-md transition">
             <div class="p-4 md:p-5">
               <div class="flex items-center">
@@ -44,7 +44,7 @@
               </div>
             </div>
           </button>
-          <button v-on:click="chengeOther" v-bind:class="{ isselcted: otherSelect }"
+          <button  v-on:click="form.type = 'other'"  v-bind:class="{ isselcted: form.type == 'other' }"
             class="group flex flex-col bg-white border hover:border-primary shadow-sm rounded-lg hover:shadow-md transition">
             <div class="p-4 md:p-5">
               <div class="flex items-center">
@@ -67,8 +67,9 @@
       </div>
       <div v-if="currentTabIndex === 1">
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <button v-for="(university, index) in universites" :key="index"
-            class="group flex flex-col bg-white border shadow-sm rounded-lg hover:shadow-md transition">
+          <button @click="form.university = university.name" v-for="(university, index) in universites" :key="index"
+                  :class="form.university == university.name ? 'border-primary' : ''"
+            class="group border  flex flex-col bg-white border shadow-sm rounded-lg hover:shadow-md transition">
             <div class="p-4 md:p-5">
               <div class="flex items-center">
                 <img class="h-[2.375rem] w-[2.375rem] rounded-full" :src="university.image" alt="Image Description">
@@ -86,7 +87,7 @@
         <form @submit.prevent="submit" method="post" class="p-4 md:p-5">
           <div class="relative mb-3">
             <label class="block text-gray-800 text-sm font-medium mb-2">اسم النادي</label>
-            <input type="text" v-model="name" name="name" required placeholder="اسم النادي"
+            <input type="text" v-model="form.name" name="name" required placeholder="اسم النادي"
               class="focus:border-primary focus:ring-primary text-gray-800 block w-full rounded-md border border-gray-300 py-3 px-12 text-sm">
             <div class="flex absolute top-1/2 right-0 items-center mr-3 pointer-events-none">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -100,7 +101,7 @@
 
           <div class="relative mb-3">
             <label class="block text-gray-800 text-sm font-medium mb-2">البريد الإلكتروني</label>
-            <input type="email" v-model="email" name="email" required placeholder="البريد الإلكتروني"
+            <input type="email" v-model="form.email" name="email" required placeholder="البريد الإلكتروني"
               class="focus:border-primary focus:ring-primary text-gray-800 block w-full rounded-md border border-gray-300 py-3 px-12 text-sm">
             <div class="flex absolute top-1/2 right-0 items-center mr-3 pointer-events-none">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -114,7 +115,7 @@
 
           <div class="relative mb-3">
             <label class="block text-gray-800 text-sm font-medium mb-2">كلمة المرور</label>
-            <input id="password" name="password" v-model="password" type="password" required placeholder="كلمة المرور"
+            <input id="password" name="password" v-model="form.password" type="password" required placeholder="كلمة المرور"
               class="focus:border-primary focus:ring-primary text-gray-800 block w-full rounded-md border border-gray-300 py-3 px-12 text-sm">
             <div class="flex absolute top-1/2 right-0 items-center pr-3">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -215,10 +216,15 @@ export default {
     };
   },
   methods: {
+    register() {
+      console.log(this.form)
+    },
     onChangeCurrentTab(index, oldIndex) {
       this.currentTabIndex = index;
     },
-    onTabBeforeChange() {
+    onTabBeforeChange(t) {
+      console.log(this.currentTabIndex , this.form)
+      return false
     
     },
     wizardCompleted() {
@@ -258,7 +264,6 @@ export default {
         icon: 'arrow-right',
         hideIcon: false, // default false but selected for sample
         hideText: false, // default false but selected for sample
-        disabled: false,
       };
     },
   },

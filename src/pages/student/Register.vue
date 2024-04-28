@@ -1,6 +1,39 @@
 <script setup>
 import Header from '../../components/Header.vue'
 import Footer from '../../components/Footer.vue'
+import axios from "axios";
+import {ref} from "vue";
+import {useRouter} from "vue-router";
+
+const router = useRouter()
+
+const name = ref('')
+const email = ref('')
+const password = ref('')
+const message = ref('')
+
+async function register() {
+  try {
+    const response = await axios.post('http://localhost:8000/api/auth/student/register' , {
+      name:name.value ,
+      email:email.value ,
+      password:password.value ,
+    }  )
+
+
+    if(response.status.toString() == '200') {
+      localStorage.setItem('token' , response.data.token)
+      localStorage.setItem('user' , response.data.user)
+      router.push('/student')
+      return
+    }
+  }
+  catch (e) {
+    if(e?.response?.status == 422) {
+      message.value = e.response.data.message;
+    }
+  }
+}
 </script>
 <template>
     <Header />
@@ -16,6 +49,7 @@ import Footer from '../../components/Footer.vue'
                         </p>
                     </div>
                     <form method="post" @submit.prevent="register">
+                      <p v-if="message" class="my-2 text-red-500">{{message}}</p>
                         <div class="relative mb-3">
                             <label class="block text-gray-800 text-sm font-medium mb-2">الاسم</label>
                             <input type="text" v-model="name" name="name" required placeholder="البريد الإلكتروني"
@@ -44,7 +78,7 @@ import Footer from '../../components/Footer.vue'
                         </div>
                         <div class="relative mb-3">
                             <label class="block text-gray-800 text-sm font-medium mb-2">كلمة المرور</label>
-                            <input id="password" v-model="password" name="password" :type="passwordFieldType" required placeholder="كلمة المرور"
+                            <input id="password" v-model="password" name="password" type="password" required placeholder="كلمة المرور"
                                 class="focus:border-primary focus:ring-primary text-gray-800 block w-full rounded-md border border-gray-300 py-3 px-12 text-sm">
                             <div class="flex absolute top-1/2 right-0 items-center pr-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

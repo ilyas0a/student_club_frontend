@@ -36,8 +36,27 @@ const routes = [
 ]
 
 export default function (history) {
-  return createRouter({
+   const router = createRouter({
     history,
-    routes
+    routes,
   })
+
+  router.beforeEach(async (to, from) => {
+    const tokenExists = localStorage.getItem('token')
+
+    if (
+        // make sure the user is authenticated
+        !tokenExists &&
+        // ❗️ Avoid an infinite redirect
+        // Add public routes
+
+        // !['/student/login' , '/' , '/club/login' , '/student/Register' , '/club/Register' ].includes(to.path)
+        ['/student' , '/student/' , '/club' , '/club/'].includes(to.path)
+    ) {
+      // redirect the user to the login page
+      return { path: 'student/login' }
+    }
+  })
+
+  return router
 }
