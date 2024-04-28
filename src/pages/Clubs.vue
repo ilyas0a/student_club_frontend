@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- <a
+      <a
         v-for="(club, index) in clubs"
         :key="index"
         class="group flex flex-col bg-white border shadow-sm rounded-lg hover:shadow-md transition"
@@ -65,13 +65,12 @@
             </div>
           </div>
         </div>
-      </a> -->
-      <div v-if="clubs">
-<!--        <h5>Products</h5>-->
+      </a>
+<!--      <div v-if="clubs">
         <ul class="mb-0">
           <li v-for="club in clubs" :key="club.id">{{ club.name }}</li>
         </ul>
-      </div>
+      </div>-->
     </div>
     <div v-if="!clubs" class="text-center">
       <div class="spinner-border spinner-border-sm">loding</div>
@@ -83,8 +82,30 @@
 import { ref } from "vue";
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
-const clubs = ref(null);
-fetch("http://127.0.0.1:8000/events")
-  .then((response) => response.json())
-  .then((data) => (clubs.value = data));
+
+const clubs = [
+  {
+    university: 'جامعة الملك خالد',
+    name: 'نادي الأعمال',
+    image: 'https://www.kku.edu.sa/sites/default/files/logo_kku_new2.png',
+  },
+  {
+    university: 'نادي البرمجة',
+    name: 'جامعة الملك سعود',
+    image: 'https://yt3.googleusercontent.com/ytc/AL5GRJUzgoFmhAMSOAie_MM14O0q6CcQp7apBiGdeVPe=s900-c-k-c0x00ffffff-no-rj',
+  },
+  {
+    university: 'نادي الابداع',
+    name: 'جامعة الملك عبدالعزيز',
+    image: 'https://pbs.twimg.com/profile_images/863459684606513152/75KY4qD7_400x400.jpg',
+  },
+  {
+    university: 'نادي الهندسة',
+    name: 'جاعمة القصيم',
+    image: 'https://www.mosoah.com/wp-content/uploads/2019/09/1306401-300x300.jpg',
+  }
+]
+// fetch("http://127.0.0.1:8000/events")
+//   .then((response) => response.json())
+//   .then((data) => (clubs.value = data));
 </script>
